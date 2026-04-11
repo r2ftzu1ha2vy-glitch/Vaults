@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <title>VAULTS — Enter If You Dare</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- MAIN MENU -->
+<div id="menu">
+  <div id="menu-bg"></div>
+  <div id="menu-content">
+    <div id="logo"><span class="logo-v">V</span><span class="logo-aults">AULTS</span></div>
+    <p id="tagline">100 vaults. One survivor.</p>
+    <div id="menu-buttons">
+      <button id="btn-play" class="menu-btn">ENTER THE DARK</button>
+      <button id="btn-settings-menu" class="menu-btn secondary">⚙ SETTINGS</button>
+      <button id="btn-how" class="menu-btn secondary">HOW TO PLAY</button>
+    </div>
+
+    <!-- MODE SELECT -->
+    <div id="mode-select" class="hidden">
+      <p class="mode-title">CHOOSE MODE</p>
+      <div id="mode-buttons">
+        <button id="btn-singleplayer" class="menu-btn">👤 SINGLEPLAYER</button>
+        <button id="btn-multiplayer" class="menu-btn">👥 MULTIPLAYER</button>
+        <button id="btn-mode-back" class="menu-btn secondary">← BACK</button>
+      </div>
+    </div>
+
+    <!-- MULTIPLAYER PANEL -->
+    <div id="mp-panel" class="hidden">
+      <p class="mode-title">MULTIPLAYER</p>
+      <button id="btn-mp-create" class="menu-btn">CREATE ROOM</button>
+      <div class="mp-join-row">
+        <input id="mp-code-input" class="mp-code-input" placeholder="CODE" maxlength="4" autocomplete="off" spellcheck="false"/>
+        <button id="btn-mp-join" class="menu-btn">JOIN ROOM</button>
+      </div>
+      <button id="btn-mp-back" class="menu-btn secondary">← BACK</button>
+    </div>
+
+    <div id="how-to-play" class="hidden">
+      <p>🚶 <b>WASD / Arrows</b> — Move</p>
+      <p>🐤 <b>C</b> — Crouch (quieter, shorter)</p>
+      <p>🖱️ <b>Mouse</b> — Look around</p>
+      <p>🚪 <b>E / Click</b> — Interact with doors/drawers/closets</p>
+      <p>🔦 <b>F</b> — Toggle flashlight</p>
+      <p>🏃 <b>Shift</b> — Sprint (watch stamina!)</p>
+      <p>💬 <b>T</b> — Open chat (multiplayer)</p>
+      <p>📱 <b>Mobile</b> — On-screen joystick &amp; buttons</p>
+      <p>👁️ <b>The WARDEN chases you</b> — Hide in closets!</p>
+      <p>🔑 Find keys hidden in drawers to unlock locked doors.</p>
+      <p>💎 Healing crystals restore HP.</p>
+      <p>💀 Survive all 100 vaults to escape.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS PANEL -->
+<div id="settings-panel" class="hidden">
+  <div id="settings-inner">
+    <h2>⚙ SETTINGS</h2>
+    <div class="setting-row">
+      <label>USERNAME</label>
+      <input type="text" id="username-input" class="username-input" maxlength="20" placeholder="Enter username" autocomplete="off" spellcheck="false"/>
+    </div>
+    <div class="setting-row">
+      <label>GRAPHICS QUALITY</label>
+      <div class="quality-buttons">
+        <button class="q-btn" data-q="low">LOW</button>
+        <button class="q-btn active" data-q="medium">MEDIUM</button>
+        <button class="q-btn" data-q="high">HIGH <span class="warn-badge">⚠ May lag on slow devices</span></button>
+      </div>
+    </div>
+    <div class="setting-row">
+      <label>SOUND</label>
+      <button id="toggle-sound" class="toggle-btn on">ON</button>
+    </div>
+    <div class="setting-row">
+      <label>JUMPSCARES</label>
+      <button id="toggle-jumpscares" class="toggle-btn on">ON</button>
+    </div>
+    <div class="setting-row">
+      <label>MOUSE SENSITIVITY</label>
+      <input type="range" id="sens-slider" min="0.5" max="3" step="0.1" value="1"/>
+      <span id="sens-val">1.0×</span>
+    </div>
+    <div class="setting-row">
+      <label>MOBILE CONTROLS</label>
+      <button id="toggle-mobile-btn" class="toggle-btn on">AUTO</button>
+    </div>
+    <button id="btn-close-settings" class="menu-btn" style="margin-top:24px">CLOSE</button>
+  </div>
+</div>
+
+<!-- HUD -->
+<div id="hud" class="hidden">
+  <div id="hud-top">
+    <div id="vault-counter">VAULT <span id="vault-num">001</span></div>
+    <div id="health-bar-wrap">
+      <div id="health-bar"></div>
+      <span id="health-txt">100</span>
+    </div>
+    <div id="hud-icons">
+      <span id="flashlight-icon">🔦 <span id="fl-status">ON</span></span>
+      <span id="key-icon" class="hidden">🔑 KEY</span>
+      <span id="crouch-icon" class="hidden">🦆</span>
+    </div>
+  </div>
+  <div id="interact-hint" class="hidden">Press <kbd>E</kbd> to open</div>
+  <div id="center-dot"></div>
+  <div id="sprint-bar-wrap"><div id="sprint-bar"></div></div>
+  <button id="btn-settings-hud" title="Settings">⚙</button>
+
+  <!-- MP STATUS BAR -->
+  <div id="mp-status" class="hidden"></div>
+
+  <!-- CHAT PANEL (multiplayer) -->
+  <div id="chat-panel">
+    <div id="chat-log"></div>
+    <div id="chat-input-row">
+      <input id="chat-input" type="text" maxlength="120" placeholder="Press T to chat..." autocomplete="off" spellcheck="false"/>
+    </div>
+  </div>
+</div>
+
+<!-- MP LOBBY OVERLAY -->
+<div id="mp-lobby" class="hidden">
+  <div id="mp-lobby-inner">
+    <p class="mp-lobby-waiting" id="mp-lobby-waiting-msg">2 OR MORE PLAYERS NEEDED TO START</p>
+    <p class="mp-lobby-label">ROOM CODE</p>
+    <p id="mp-lobby-code"></p>
+    <div id="mp-lobby-players">
+      <!-- Player entries injected here -->
+    </div>
+    <p class="mp-lobby-hint">Share the code with friends to join.</p>
+    <button id="btn-lobby-start" class="menu-btn hidden">START GAME</button>
+    <p id="mp-lobby-host-hint" class="mp-lobby-hint hidden">Waiting for host to start...</p>
+  </div>
+</div>
+
+<!-- WARDEN ALERT -->
+<div id="warden-alert"></div>
+
+<!-- JUMPSCARE -->
+<div id="jumpscare" class="hidden">
+  <canvas id="jumpscare-canvas"></canvas>
+</div>
+
+<!-- DEATH SCREEN -->
+<div id="death-screen" class="hidden">
+  <h1>YOU WERE CAUGHT</h1>
+  <p id="death-vault"></p>
+  <button id="btn-retry" class="menu-btn">TRY AGAIN</button>
+  <button id="btn-menu-death" class="menu-btn secondary">MAIN MENU</button>
+</div>
+
+<!-- WIN SCREEN -->
+<div id="win-screen" class="hidden">
+  <h1>ESCAPED.</h1>
+  <p>All 100 vaults cleared.</p>
+  <button id="btn-play-again" class="menu-btn">PLAY AGAIN</button>
+</div>
+
+<!-- POINTER LOCK -->
+<div id="pointer-lock-overlay" class="hidden">
+  <p>Click to capture mouse</p>
+</div>
+
+<!-- MOBILE CONTROLS -->
+<div id="mobile-controls" class="hidden">
+  <div id="joystick-zone">
+    <div id="joystick-base">
+      <div id="joystick-thumb"></div>
+    </div>
+  </div>
+  <div id="look-zone"></div>
+  <div id="action-pad">
+    <button class="mob-btn" id="mb-interact">E</button>
+    <button class="mob-btn" id="mb-crouch">🦆</button>
+    <button class="mob-btn" id="mb-sprint">⚡</button>
+    <button class="mob-btn" id="mb-flash">🔦</button>
+  </div>
+</div>
+
+<canvas id="gameCanvas"></canvas>
+
+<!-- Firebase SDKs (Compat) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="game.js"></script>
+
+<script>
+function showChatPanel(){document.getElementById('chat-panel').style.display='flex';}
+</script>
+</body>
+</html>
